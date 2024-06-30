@@ -12,11 +12,11 @@ const Manager = () => {
     const [passwordArray, setPasswordArray] = useState([])
 
     const getPasswords = async () => {
-        let req = await fetch("http://localhost:3000/")
+        let req = await fetch(`${window.location.origin}/`)
         let passwords = await req.json();
         setPasswordArray(passwords)
         console.log(passwords)
-        setPasswordArray(passwords)
+        // setPasswordArray(passwords)
     }
 
     useEffect(() => {
@@ -100,7 +100,7 @@ const Manager = () => {
         const newPassword = { ...form, id: newId };
 
         // If any such id exists in the db, delete it
-        await fetch("http://localhost:3000/", {
+        await fetch(`${window.location.origin}/`, {
             method: "DELETE",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ id: form.id })
@@ -109,7 +109,7 @@ const Manager = () => {
         // Add new password to state and local storage
         const updatedPasswordArray = [...passwordArray, newPassword];
         setPasswordArray(updatedPasswordArray);
-        await fetch("http://localhost:3000/", {
+        await fetch(`${window.location.origin}/`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(newPassword)
@@ -149,7 +149,7 @@ const Manager = () => {
         if (c) {
             setPasswordArray(passwordArray.filter(item => item.id !== id))
             // setPasswordArray([...passwordArray, {...form, id: uuidv4()}])
-            let res = await fetch("http://localhost:3000/", { method: "DELETE", header: { "content-type": "application/json" }, body: JSON.stringify({ id }) })
+            let res = await fetch(`${window.location.origin}/`, { method: "DELETE", header: { "content-type": "application/json" }, body: JSON.stringify({ id }) })
             // localStorage.setItem("passwords", JSON.stringify(passwordArray.filter(item => item.id !== id)));
             // console.log([...passwordArray, form])
             toast('Password Deleted!', {
@@ -256,7 +256,7 @@ const Manager = () => {
                                         <div className='flex items-center justify-center'>
                                             <span>{item.username}</span>
 
-                                            <div className='lordiconcopy size-7 cursor-pointer' onClick={() => { copyText(item.userName) }}>
+                                            <div className='lordiconcopy size-7 cursor-pointer' onClick={() => { copyText(item.username) }}>
                                                 {/* <lord-icon
                                                     style={{ width: "20px", height: "20px", paddingTop: "5px", paddingLeft: "3px" }}
                                                     src="https://cdn.lordicon.com/lyrrgrsl.json"

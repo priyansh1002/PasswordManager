@@ -4,6 +4,7 @@ const dotenv = require('dotenv')
 const { MongoClient } = require('mongodb');
 const bodyparser=require('body-parser')
 const cors=require('cors')
+const path = require("path");
 
 dotenv.config()
 
@@ -17,6 +18,17 @@ app.use(bodyparser.json())
 app.use(cors())
 
 client.connect();
+//for deployment
+app.use(express.static(path.resolve(__dirname, "Frontend", "dist")));
+app.get("/", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "Frontend", "dist", "index.html"));
+});
+
+//for deployment
+// app.get("/",(req,res)=>{
+//   app.use(express.static(path.resolve(__dirname,"Frontend","build")));
+//   res.sendFile(path.resolve(__dirname,"Frontend","dist","index.html"));
+// });
 
 
 //Get All the passwords
